@@ -7,18 +7,18 @@ static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "Iosevka:size=10" };
+static const char dmenufont[]       = "Iosevka:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
-static const char *upvol[]   = { "/usr/bin/amixer", "set", "Master", "2%+", NULL };
-static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "2%-", NULL };
-static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
-static const char *light_up[] = {"/usr/bin/xbacklight", "-inc", "5", NULL};
-static const char *light_down[] = {"/usr/bin/xbackight", "-dec", "5", NULL};
+static const char *upvol[]          = { "/usr/bin/amixer", "set", "Master", "2%+", NULL };
+static const char *downvol[]        = { "/usr/bin/amixer", "set", "Master", "2%-", NULL };
+static const char *mutevol[]        = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
+static const char *light_up[]       = { "/usr/bin/xbacklight", "-inc", "5", NULL};
+static const char *light_down[]     = { "/usr/bin/xbackight", "-dec", "5", NULL};
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -33,9 +33,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
+
 	/* class      instance    title       tags mask     isfloating   monitor */
-	//{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1,       0,           -1 },
+	{ "firefox",  NULL,       NULL,       1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -65,17 +65,20 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
+static const char *screenshooter[]  = { "xfce4-screenshooter", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
-    // brightness and audio 
-  {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},
-	{0, XF86XK_AudioMute, spawn, {.v = mutevol }},
-	{0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol}},
-	{0,	XF86XK_MonBrightnessUp,		spawn,	{.v = light_up}},
-	{0,	XF86XK_MonBrightnessDown,	spawn,	{.v = light_down}},
+	{0, XK_Print, spawn, {.v = screenshooter }},
+
+        // brightness and audio 
+        {0, XF86XK_AudioMute,         spawn, {.v = mutevol   }},
+	{0, XF86XK_AudioLowerVolume,  spawn, {.v = downvol   }},
+	{0, XF86XK_AudioRaiseVolume,  spawn, {.v = upvol     }},
+	{0, XF86XK_MonBrightnessUp,   spawn, {.v = light_up  }},
+	{0, XF86XK_MonBrightnessDown, spawn, {.v = light_down}},
 
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
